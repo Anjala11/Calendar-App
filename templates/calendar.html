@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<a href="/">CALENDAR APP</a>
+{% endblock %}
+
+{% block main %}
+<div>
+  <form action="/calendar" method="post" id="calcform">
+    <table align="center" id="calen_table">
+      <tr id="head-row">
+        <td><label>Go to</label></td>
+        <td>
+          <select name="month" required id="which_month">
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+          </select>
+        </td>
+        <td>
+          <select name="year" required id="which_year">
+            {% for i in range(30) %}
+            <option>{{ 2000 + i }}</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td><input type="submit" id="viewcal" name="doit" value="Take me"/></td>
+      </tr>
+      <tr><td colspan="4"><div id="presmonth">{{ this_month | safe }}</div></td></tr>
+      <tr><td colspan="4"><input type="button" id="reminder_button" name="doit" value="Make a Reminder"/></td></tr>
+    </table>
+  </form>
+  <table align='center'>
+    <tr><td><div id="reminder_div"></div></td></tr>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    // JSON data passed from 'python' to 'javascript' through template rendering
+    dates_from_python = {{ js_dates }};
+    i = 0; // Inner Index
+    j = 0; // Outer Index
+
+    // Comparing 'dates' in database with every date of the month
+    $.each(dates_from_python, function(i) {
+      $("table.month td").each(function() {
+        if(dates_from_python[i] == $(this).html()) {
+          // Adding 'css' class to corresponding 'td'
+          $(this).addClass("evented");
+        }
+      });
+      i = i + 1;
+    });
+  });
+</script>
+{% endblock scripts %}

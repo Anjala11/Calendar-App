@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<a href="/">CALENDAR APP</a>
+{% endblock %}
+
+{% block main %}
+<div>
+  <form id="detailsform" method="POST" action="/event_details">
+    <table align='center' id='listevents'>
+      <tr>
+        <td><label>Go to</label></td>
+        <td>
+          <select name="month" required id="month_of_year">
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+          </select>
+        </td>
+        <td>
+          <select name="year" required id="what_year">
+            {% for i in range(30) %}
+            <option>{{ 2000 + i }}</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td><input type="submit" name="events" id="events_show" value="Show Events"/></td>
+      </tr>
+    </table>
+  </form>
+  <div id="events_details_show"></div>
+</div>
+{% endblock %}
